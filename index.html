@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <script></script> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style> 
+     #mapid { position:absolute; top:0; bottom:0; left:0; right:0; }
+     </style>
+</head>
+<body>
+  <div id="mapid"></div>
+ <script>
+   var mymap = L.map('mapid').setView([-0.5488, 37.459], 13);
+   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1Ijoid2h5c29zZXJpb3VzIiwiYSI6ImNrcWUyMjRtZDFid2oybm92Zzcya3gwcTMifQ._JDAtzEyUzQ1mSjvTwDXIw'
+}).addTo(mymap);
+
+//adding markers, polygons etc
+var marker = L.marker([-0.530, 37.45]).addTo(mymap);
+var circle = L.circle([-0.537, 37.525], {
+    color: 'black',
+    fillColor: 'purple',
+    fillOpacity: 0.5,
+    radius: 900
+}).addTo(mymap);
+
+var polygon = L.polygon([
+    [-0.538, 37.452],
+    [-0.545, 37.495],
+    [-0.57, 37.48],
+    [-0.55, 37.45]
+]).addTo(mymap);
+
+
+//pop-ups 
+marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+circle.bindPopup("I am a circle.");
+polygon.bindPopup("I am a polygon.");
+
+var popup = L.popup()
+    .setLatLng([-0.5110, 37.429])
+    .setContent("Just popup!")
+    .openOn(mymap);
+
+//impoved pop-up on any point of the map
+function onMapClick(e) {
+    popup
+        .setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
+        .openOn(mymap);
+}
+
+mymap.on('click', onMapClick);
+ </script> 
+</body>
+<html>
+ 
+ 
